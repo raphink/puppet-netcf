@@ -44,9 +44,6 @@ Puppet::Type.type(:netcf_if).provide(:netcf) do
   def destroy
   end
 
-  def status
-  end
-
   def up
   end
 
@@ -60,6 +57,9 @@ Puppet::Type.type(:netcf_if).provide(:netcf) do
   end
 
   def definition=(xml)
+    ncf = Netcf.new
+    i = ncf.lookup_by_name(resource[:name])
+    i.define(xml)
   end
 
   def status
