@@ -35,7 +35,7 @@ Puppet::Type.newtype(:netcf_if) do
     isnamevar
   end
 
-  newparam (:definition) do
+  newproperty (:definition) do
     desc "The definition of the interface, as an XML."
   end
 
