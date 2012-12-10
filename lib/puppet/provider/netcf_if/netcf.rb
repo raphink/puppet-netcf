@@ -15,7 +15,7 @@ Puppet::Type.type(:netcf_if).provide(:netcf) do
       ncf.list_interfaces(NetcfIf::ACTIVE).each do |name|
         i = ncf.lookup_by_name(name)
         xml = i.xml_desc
-        entry = {:ensure => :up, :name => i,
+        entry = {:ensure => :up, :name => name,
                  :definition => xml}
         resources << new(entry)
       end
