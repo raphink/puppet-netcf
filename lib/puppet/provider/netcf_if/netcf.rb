@@ -9,7 +9,7 @@ Puppet::Type.type(:netcf_if).provide(:netcf) do
 
   def self.instances
     ncf = nil
-    begin
+#    begin
       resources = []
       ncf = Netcf.new
       ncf.list_interfaces(NetcfIf::ACTIVE).each do |name|
@@ -21,9 +21,9 @@ Puppet::Type.type(:netcf_if).provide(:netcf) do
       end
     
       resources
-    ensure
-      ncf.close if ncf
-    end 
+#    ensure
+#      ncf.close if ncf
+#    end 
   end
 
   def exists?
