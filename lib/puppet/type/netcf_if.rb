@@ -31,7 +31,7 @@ Puppet::Type.newtype(:netcf_if) do
   EOT
 
   newparam (:name) do
-    desc "The name of this task. Used for uniqueness."
+    desc "The name of the interface."
     isnamevar
   end
 
