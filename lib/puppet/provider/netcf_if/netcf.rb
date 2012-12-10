@@ -35,6 +35,15 @@ Puppet::Type.type(:netcf_if).provide(:netcf) do
   def destroy
   end
 
+  def status
+  end
+
+  def up
+  end
+
+  def down
+  end
+
   def definition
   end
 
