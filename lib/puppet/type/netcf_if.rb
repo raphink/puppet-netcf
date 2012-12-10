@@ -6,8 +6,6 @@
 Puppet::Type.newtype(:netcf_if) do
   include Puppet::Util
 
-  ensurable
-
   @doc = <<-EOT
     Configure an interface using Netcf.
 
