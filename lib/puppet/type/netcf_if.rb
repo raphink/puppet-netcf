@@ -58,8 +58,13 @@ Puppet::Type.newtype(:netcf_if) do
       @resource.provider.down
     end
 
-    aliasvalue(:false, :down)
+    newvalue(:absent) do
+      @resource.provider.destroy
+    end
+
+    aliasvalue(:false, :absent)
     aliasvalue(:true, :up)
+    aliasvalue(:present, :up)
 
     def retrieve
       @resource.provider.status?

@@ -36,18 +36,33 @@ Puppet::Type.type(:netcf_if).provide(:netcf) do
   end
 
   def exists?
+    notice "Testing if resource exists"
+    ncf = Netcf.new
+    ifs = ncf.list_interfaces(NetcfIf::ACTIVE | NetcfIf::INACTIVE)
+    ifs.include?(resource[:name])
   end
 
   def create
+    notice "Need to create interface"
+    ncf = Netcf.new
+    ncf.define(resource[:definition])
   end
 
   def destroy
+    notice "Need to destroy interface"
+    ncf = Netcf.new
+    i = ncf.lookup_by_name(resource[:name])
+    i.undefine
   end
 
   def up
+    self.create
+    notice "Getting interface up"
   end
 
   def down
+    self.create
+    notice "Taking interface down"
   end
 
   def definition
@@ -57,18 +72,15 @@ Puppet::Type.type(:netcf_if).provide(:netcf) do
   end
 
   def definition=(xml)
-    ncf = Netcf.new
-    i = ncf.lookup_by_name(resource[:name])
-    i.define(xml)
+    self.create
   end
 
-  def status
+  def status?
     ncf = Netcf.new
     i = ncf.lookup_by_name(resource[:name])
     if i.nil?
       :absent
-    end
-    if i.status == NetcfIf::ACTIVE
+    elsif i.status == NetcfIf::ACTIVE
       :up
     else
       :down
