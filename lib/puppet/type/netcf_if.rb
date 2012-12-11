@@ -37,24 +37,32 @@ Puppet::Type.newtype(:netcf_if) do
 
   newproperty (:definition) do
     desc "The definition of the interface, as an XML."
+
+    def insync?(is)
+      # Comparing XML is a bit more complex
+      # than testing equality of strings
+      require 'nokogiri'
+      require 'equivalent-xml'
+      EquivalentXml.equivalent?(@should.to_s, is.to_s, opts = { :element_order => false, :normalize_whitespace => true })
+    end
   end
 
   newproperty(:ensure) do
     desc "Whether an interface should be up."
 
     newvalue(:up, :event => :interface_up) do
-      provider.up
+      @resource.provider.up
     end
 
     newvalue(:down, :event => :interface_down) do
-      provider.down
+      @resource.provider.down
     end
 
     aliasvalue(:false, :down)
     aliasvalue(:true, :up)
 
     def retrieve
-      provider.status
+      @resource.provider.status?
     end
 
     def sync
